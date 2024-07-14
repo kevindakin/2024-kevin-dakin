@@ -2,69 +2,93 @@
 // FUNCTION DECLARATIONS
 //
 
-// Contact link hover
+// Featured work scroll animation
 
-function contactLinkHover() {
-    const links = document.querySelectorAll('[gsap-el="contact-hover"]');
+function workScroll() {
+    const projects = document.querySelectorAll(".ft-work_item-wrap");
   
-    links.forEach((link) => {
-      const linkText = link.querySelector('[gsap-el="contact-text"]');
-      const hoverText = link.querySelector('[gsap-el="hover-text"]');
+    projects.forEach((project) => {
+      const projectAnim = gsap.timeline({
+        scrollTrigger: {
+          trigger: project,
+          start: "top bottom",
+          toggleActions: "play none none reverse",
+        },
+        defaults: {
+          duration: durationSlow,
+          ease: easeBase,
+        },
+      });
   
-      if (linkText && hoverText) {
-        const linkChars = new SplitType(linkText, { types: "chars" });
-        const hoverChars = new SplitType(hoverText, { types: "chars" });
-  
-        const enterTL = gsap.timeline({
-          paused: true,
-          defaults: {
-            duration: durationFast,
-            ease: "power2.out",
-          },
-        });
-  
-        enterTL.to(linkChars.chars, { yPercent: -100, stagger: 0.01 }, "<");
-        enterTL.to(hoverChars.chars, { yPercent: -100, stagger: 0.01 }, "<");
-  
-        const leaveTL = gsap.timeline({
-          paused: true,
-          defaults: {
-            duration: durationFast,
-            ease: "power2.out",
-          },
-        });
-  
-        leaveTL.to(hoverChars.chars, { yPercent: 0, stagger: 0.02 }, "<");
-        leaveTL.to(linkChars.chars, { yPercent: 0, stagger: 0.02 }, "<");
-  
-        link.addEventListener("mouseenter", () => enterTL.restart());
-        link.addEventListener("mouseleave", () => leaveTL.restart());
-      }
-    });
-  }
-  
-  // Floating form labels
-  
-  function formLabel() {
-    const inputs = document.querySelectorAll(".form_input");
-  
-    inputs.forEach((input) => {
-      input.addEventListener("focusout", function () {
-        if (this.value.length > 0) {
-          this.classList.add("focus-out");
-        } else {
-          this.classList.remove("focus-out");
-        }
+      projectAnim.from(project, {
+        opacity: 0,
+        filter: "blur(8px)",
       });
     });
   }
   
-  //
-  // Function Inits
-  //
+  //if (window.matchMedia("(min-width: 992px)").matches) {
   
-  if (window.matchMedia("(min-width: 992px)").matches) {
-    contactLinkHover();
+  function workParallax() {
+    if (window.matchMedia("(min-width: 992px)").matches) {
+      const elements = document.querySelectorAll(".ft-work_item-wrap");
+  
+      elements.forEach((item, index) => {
+        let yStart, yEnd, scrubValue;
+  
+        switch (index) {
+          case 0:
+            yStart = "4rem";
+            yEnd = "-4rem";
+            scrubValue = 1;
+            break;
+          case 1:
+            yStart = "-3rem";
+            yEnd = "3rem";
+            scrubValue = 0.8;
+            break;
+          case 2:
+            yStart = "4rem";
+            yEnd = "-4rem";
+            scrubValue = 1.2;
+            break;
+          case 3:
+            yStart = "-4rem";
+            yEnd = "4rem";
+            scrubValue = 1;
+            break;
+          case 4:
+            yStart = "-3rem";
+            yEnd = "3rem";
+            scrubValue = 1;
+            break;
+          case 5:
+            yStart = "4rem";
+            yEnd = "-4rem";
+            scrubValue = 1;
+            break;
+        }
+  
+        const parallaxAnim = gsap.timeline({
+          defaults: {
+            ease: "none",
+          },
+          scrollTrigger: {
+            trigger: item,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: scrubValue,
+          },
+        });
+  
+        parallaxAnim.fromTo(item, { y: yStart }, { y: yEnd });
+      });
+    }
   }
-  formLabel();
   
+  //
+  // FUNCTION INITS
+  //
+  
+  workScroll();
+  workParallax();  
