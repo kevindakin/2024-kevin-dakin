@@ -290,6 +290,36 @@ function secondaryLinkHover() {
   });
 }
 
+
+// Featured work scroll animation
+
+function workScroll() {
+    const projects = document.querySelectorAll(".ft-work_item-wrap");
+
+    if (!projects) {
+        return;
+    }
+  
+    projects.forEach((project) => {
+      const projectAnim = gsap.timeline({
+        scrollTrigger: {
+          trigger: project,
+          start: "top bottom",
+          toggleActions: "play none none reverse",
+        },
+        defaults: {
+          duration: durationSlow,
+          ease: easeBase,
+        },
+      });
+  
+      projectAnim.from(project, {
+        opacity: 0,
+        filter: "blur(8px)",
+      });
+    });
+  }
+
 // Image reveal (Scroll)
 
 function imageReveal() {
@@ -502,6 +532,7 @@ if (window.matchMedia("(min-width: 992px)").matches) {
   secondaryLinkHover();
 }
 menuOpenAnim();
+workScroll();
 imageReveal();
 imageParallax();
 splitChars();

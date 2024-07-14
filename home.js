@@ -1,34 +1,7 @@
 //
 // FUNCTION DECLARATIONS
 //
-
-// Featured work scroll animation
-
-function workScroll() {
-    const projects = document.querySelectorAll(".ft-work_item-wrap");
-  
-    projects.forEach((project) => {
-      const projectAnim = gsap.timeline({
-        scrollTrigger: {
-          trigger: project,
-          start: "top bottom",
-          toggleActions: "play none none reverse",
-        },
-        defaults: {
-          duration: durationSlow,
-          ease: easeBase,
-        },
-      });
-  
-      projectAnim.from(project, {
-        opacity: 0,
-        filter: "blur(8px)",
-      });
-    });
-  }
-  
-  //if (window.matchMedia("(min-width: 992px)").matches) {
-  
+    
   function workParallax() {
     if (window.matchMedia("(min-width: 992px)").matches) {
       const elements = document.querySelectorAll(".ft-work_item-wrap");
@@ -90,5 +63,4 @@ function workScroll() {
   // FUNCTION INITS
   //
   
-  workScroll();
   workParallax();  
