@@ -11,7 +11,7 @@ function workSwiper() {
       speed: 400,
       breakpoints: {
         768: {
-          slidesPerView: 2,
+          slidesPerView: 3,
         },
       },
     });
