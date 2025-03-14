@@ -1423,5 +1423,3 @@
   
     return SplitType;
   }();
-  
-  export { SplitType as default };
