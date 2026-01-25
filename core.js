@@ -1,7 +1,3 @@
-//
-// GLOBAL VARIABLES
-//
-
 const durationBase = 1;
 const durationFast = 0.6;
 const durationSlow = 1.4;
@@ -9,12 +5,6 @@ const easeBase = "power4.inOut";
 const main = document.querySelector(".page_main");
 const nav = document.querySelector(".nav_component");
 const hamburgerEl = document.querySelector(".hamburger_wrap");
-
-//
-// FUNCTION DECLARATIONS
-//
-
-// Nav move on scroll
 
 function navScroll() {
   const navItems = nav.querySelectorAll(".nav_brand, .book_component");
@@ -43,8 +33,6 @@ function navScroll() {
     }
   };
 }
-
-// Open menu
 
 function menuOpenAnim() {
   const menuEl = document.querySelector(".nav_menu");
@@ -213,8 +201,6 @@ function menuOpenAnim() {
   });
 }
 
-// Menu link hover
-
 function menuLinkHover() {
   const menuLinks = document.querySelectorAll('[gsap-el="menu-link"]');
 
@@ -257,8 +243,6 @@ function menuLinkHover() {
   });
 }
 
-// Menu link hover (Secondary)
-
 function secondaryLinkHover() {
   const links = document.querySelectorAll(".menu_service-wrap");
 
@@ -290,40 +274,35 @@ function secondaryLinkHover() {
   });
 }
 
-
-// Featured work scroll animation
-
 function workScroll() {
-    const projects = document.querySelectorAll(".ft-work_item-wrap");
+  const projects = document.querySelectorAll(".ft-work_item-wrap");
 
-    if (!projects) {
-        return;
-    }
-  
-    projects.forEach((project) => {
-      const projectAnim = gsap.timeline({
-        scrollTrigger: {
-          trigger: project,
-          start: "top bottom",
-          toggleActions: "play none none reverse",
-        },
-        defaults: {
-          duration: durationSlow,
-          ease: easeBase,
-        },
-      });
-  
-      projectAnim.from(project, {
-        opacity: 0,
-        filter: "blur(8px)",
-      });
+  if (!projects) return;
+
+  projects.forEach((project) => {
+    const projectAnim = gsap.timeline({
+      scrollTrigger: {
+        trigger: project,
+        start: "top bottom",
+        toggleActions: "play none none reverse",
+      },
+      defaults: {
+        duration: durationSlow,
+        ease: easeBase,
+      },
     });
-  }
 
-// Image reveal (Scroll)
+    projectAnim.from(project, {
+      opacity: 0,
+      filter: "blur(8px)",
+    });
+  });
+}
 
 function imageReveal() {
   const wrapper = document.querySelectorAll(".parallax");
+
+  if (!wrapper.length) return;
 
   wrapper.forEach((wrap) => {
     const block = wrap.querySelector(".overlay-block");
@@ -353,10 +332,10 @@ function imageReveal() {
   });
 }
 
-// Image parallax
-
 function imageParallax() {
   const parallaxWrap = document.querySelectorAll(".parallax");
+
+  if (!parallaxWrap.length) return;
 
   parallaxWrap.forEach((wrap) => {
     const img = wrap.querySelector(".u-cover-absolute.is-parallax");
@@ -384,10 +363,10 @@ function imageParallax() {
   });
 }
 
-// Split chars (Scroll)
-
 function splitChars() {
   const splitElements = document.querySelectorAll('[gsap-el="split-chars"]');
+
+  if (!splitElements.length) return;
 
   splitElements.forEach((text) => {
     const chars = new SplitType(text, { types: "chars, lines" });
@@ -411,10 +390,10 @@ function splitChars() {
   });
 }
 
-// Split lines (Scroll)
-
 function splitLines() {
   const splitElements = document.querySelectorAll('[gsap-el="split-line"]');
+
+  if (!splitElements.length) return;
 
   splitElements.forEach((text) => {
     const lines = new SplitType(text, { types: "lines, words" });
@@ -439,8 +418,6 @@ function splitLines() {
     });
   });
 }
-
-// Floating form labels
 
 function floatingLabel() {
   const input = document.querySelector(".footer-form_input");
@@ -467,8 +444,6 @@ function floatingLabel() {
   });
 }
 
-// Disable scroll
-
 function disableScrolling() {
   document.body.classList.add("no-scroll");
   lenis.stop();
@@ -478,8 +453,6 @@ function enableScrolling() {
   document.body.classList.remove("no-scroll");
   lenis.start();
 }
-
-// Footer scroll
 
 function footerScroll() {
   const tl = gsap.timeline({
@@ -498,8 +471,6 @@ function footerScroll() {
     opacity: 0,
   });
 }
-
-// Dynamic count for nav links
 
 function cmsCount() {
   const workCMS = document.getElementById("work-list");
@@ -526,29 +497,32 @@ function cmsCount() {
 // FUNCTION INITS
 //
 
-if (window.matchMedia("(min-width: 992px)").matches) {
-  navScroll();
-  menuLinkHover();
-  secondaryLinkHover();
-}
-menuOpenAnim();
-workScroll();
-imageReveal();
-imageParallax();
-splitChars();
-splitLines();
-floatingLabel();
-footerScroll();
-cmsCount();
+document.addEventListener("DOMContentLoaded", function () {
+  menuOpenAnim();
+  workScroll();
+  imageReveal();
+  imageParallax();
+  splitChars();
+  splitLines();
+  floatingLabel();
+  footerScroll();
+  cmsCount();
 
-document.querySelectorAll('[data-scroll="disable"]').forEach((element) => {
-  element.addEventListener("click", (event) => {
-    disableScrolling();
+  document.querySelectorAll('[data-scroll="disable"]').forEach((element) => {
+    element.addEventListener("click", (event) => {
+      disableScrolling();
+    });
   });
-});
 
-document.querySelectorAll('[data-scroll="enable"]').forEach((element) => {
-  element.addEventListener("click", (event) => {
-    enableScrolling();
+  document.querySelectorAll('[data-scroll="enable"]').forEach((element) => {
+    element.addEventListener("click", (event) => {
+      enableScrolling();
+    });
   });
+
+  if (window.matchMedia("(min-width: 992px)").matches) {
+    navScroll();
+    menuLinkHover();
+    secondaryLinkHover();
+  }
 });
