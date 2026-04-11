@@ -237,7 +237,7 @@ function imageReveal() {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: wrap,
-        start: "top 80%",
+        start: "top bottom",
         toggleActions: "play none none reverse",
       },
       defaults: {
