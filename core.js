@@ -201,79 +201,6 @@ function menuOpenAnim() {
   });
 }
 
-function menuLinkHover() {
-  const menuLinks = document.querySelectorAll('[gsap-el="menu-link"]');
-
-  menuLinks.forEach((link) => {
-    const linkText = link.querySelector('[gsap-el="menu-text"]');
-    const hoverText = link.querySelector('[gsap-el="hover-text"]');
-    const line = link.querySelector(".menu_link-line");
-
-    if (linkText && hoverText) {
-      const linkChars = new SplitType(linkText, { types: "chars" });
-      const hoverChars = new SplitType(hoverText, { types: "chars" });
-
-      const enterTL = gsap.timeline({
-        paused: true,
-        defaults: {
-          duration: durationFast,
-          ease: "power2.out",
-        },
-      });
-
-      enterTL.to(line, { width: "100%" });
-      enterTL.to(linkChars.chars, { yPercent: -100, stagger: 0.02 }, "<");
-      enterTL.to(hoverChars.chars, { yPercent: -100, stagger: 0.02 }, "<");
-
-      const leaveTL = gsap.timeline({
-        paused: true,
-        defaults: {
-          duration: durationFast,
-          ease: "power2.out",
-        },
-      });
-
-      leaveTL.to(line, { width: "0%" });
-      leaveTL.to(hoverChars.chars, { yPercent: 0, stagger: 0.02 }, "<");
-      leaveTL.to(linkChars.chars, { yPercent: 0, stagger: 0.02 }, "<");
-
-      link.addEventListener("mouseenter", () => enterTL.restart());
-      link.addEventListener("mouseleave", () => leaveTL.restart());
-    }
-  });
-}
-
-function secondaryLinkHover() {
-  const links = document.querySelectorAll(".menu_service-wrap");
-
-  links.forEach((link) => {
-    const arrow = link.querySelectorAll(".menu_service-icon");
-    const text = link.querySelectorAll(".menu_service-title");
-    const arrowHover = link.querySelector(".menu_service-icon.is-hover");
-    const textHover = link.querySelector(".menu_service-title.is-hover");
-
-    if (arrowHover && textHover) {
-      const tl = gsap.timeline({
-        paused: true,
-        defaults: {
-          duration: durationFast,
-          ease: "power2.inOut",
-        },
-      });
-
-      tl.to(arrow, { x: "2rem" }).to(text, { yPercent: -100 }, "<");
-
-      link.addEventListener("mouseenter", () => {
-        tl.play();
-      });
-
-      link.addEventListener("mouseleave", () => {
-        tl.reverse();
-      });
-    }
-  });
-}
-
 function workScroll() {
   const projects = document.querySelectorAll(".ft-work_item-wrap");
 
@@ -284,17 +211,17 @@ function workScroll() {
       scrollTrigger: {
         trigger: project,
         start: "top bottom",
-        toggleActions: "play none none reverse",
+        toggleActions: "play none none none",
       },
       defaults: {
-        duration: durationSlow,
+        duration: durationBase,
         ease: easeBase,
       },
     });
 
     projectAnim.from(project, {
       opacity: 0,
-      filter: "blur(8px)",
+      filter: "blur(4px)",
     });
   });
 }
@@ -305,7 +232,6 @@ function imageReveal() {
   if (!wrapper.length) return;
 
   wrapper.forEach((wrap) => {
-    const block = wrap.querySelector(".overlay-block");
     const img = wrap.querySelector(".u-cover-absolute.is-parallax");
 
     const tl = gsap.timeline({
@@ -320,14 +246,12 @@ function imageReveal() {
       },
     });
 
-    tl.from(block, {
-      height: "100%",
-    }).from(
+    tl.from(
       img,
       {
-        scale: 1.5,
+        scale: 1.3,
+        filter: "blur(3px)"
       },
-      "<0.2"
     );
   });
 }
@@ -360,62 +284,6 @@ function imageParallax() {
         }
       );
     }
-  });
-}
-
-function splitChars() {
-  const splitElements = document.querySelectorAll('[gsap-el="split-chars"]');
-
-  if (!splitElements.length) return;
-
-  splitElements.forEach((text) => {
-    const chars = new SplitType(text, { types: "chars, lines" });
-
-    const anim = gsap.timeline({
-      scrollTrigger: {
-        trigger: text,
-        start: "top bottom+=20%",
-        toggleActions: "play none none reverse",
-      },
-      defaults: {
-        duration: durationSlow,
-        ease: easeBase,
-      },
-    });
-
-    anim.from(text.querySelectorAll(".char"), {
-      y: "100%",
-      stagger: 0.05,
-    });
-  });
-}
-
-function splitLines() {
-  const splitElements = document.querySelectorAll('[gsap-el="split-line"]');
-
-  if (!splitElements.length) return;
-
-  splitElements.forEach((text) => {
-    const lines = new SplitType(text, { types: "lines, words" });
-
-    const anim = gsap.timeline({
-      scrollTrigger: {
-        trigger: text,
-        start: "top bottom+=20%",
-        toggleActions: "play none none reverse",
-      },
-      defaults: {
-        duration: durationSlow,
-        ease: easeBase,
-      },
-    });
-
-    anim.from(text.querySelectorAll(".word"), {
-      y: "100%",
-      stagger: {
-        each: 0.03,
-      },
-    });
   });
 }
 
@@ -502,8 +370,6 @@ document.addEventListener("DOMContentLoaded", function () {
   workScroll();
   imageReveal();
   imageParallax();
-  splitChars();
-  splitLines();
   floatingLabel();
   footerScroll();
   cmsCount();
@@ -522,7 +388,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (window.matchMedia("(min-width: 992px)").matches) {
     navScroll();
-    menuLinkHover();
-    secondaryLinkHover();
   }
 });
